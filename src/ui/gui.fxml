@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -244,19 +243,10 @@
                                     </Label>
                                     <TextArea fx:id="columnSW" prefHeight="38.0" prefWidth="126.0" />
                                     <Separator orientation="VERTICAL" prefHeight="68.0" prefWidth="41.0" />
-                                    <RadioButton mnemonicParsing="false" onAction="#withRepeSW" text="With repetition" textFill="WHITE">
-                                       <font>
-                                          <Font name="Consolas Bold" size="25.0" />
-                                       </font>
-                                    </RadioButton>
                                     <Separator prefHeight="15.0" prefWidth="57.0" visible="false" />
-                                    <RadioButton mnemonicParsing="false" onAction="#noRepeSW" text="No repetition" textFill="WHITE">
-                                       <font>
-                                          <Font name="Consolas Bold" size="25.0" />
-                                       </font>
-                                    </RadioButton>
-                                    <Separator orientation="VERTICAL" prefHeight="68.0" prefWidth="62.0" />
-                                    <Button mnemonicParsing="false" onAction="#generateSW" prefHeight="43.0" prefWidth="118.0" text="Generate" />
+                                    <Button mnemonicParsing="false" onAction="#withRepeSW" prefHeight="43.0" prefWidth="268.0" text="Generate - repetition allowed" />
+                                    <Separator orientation="VERTICAL" prefHeight="68.0" prefWidth="114.0" />
+                                    <Button mnemonicParsing="false" onAction="#noRepeSW" prefHeight="43.0" prefWidth="269.0" text="Generate without repetition" />
                                  </children>
                               </HBox>
                            </top>
@@ -274,7 +264,7 @@
                                           <Separator prefHeight="14.0" prefWidth="392.0" visible="false" />
                                           <VBox alignment="CENTER" prefHeight="629.0" prefWidth="415.0" style="-fx-border-color: #4285F4; -fx-border-width: 2; -fx-border-radius: 15;">
                                              <children>
-                                                <GridPane fx:id="gridP1TW" alignment="CENTER_RIGHT" gridLinesVisible="true" prefHeight="602.0" prefWidth="411.0">
+                                                <GridPane fx:id="gridP1TW" alignment="CENTER" gridLinesVisible="true" prefHeight="602.0" prefWidth="411.0">
                                                    <columnConstraints>
                                                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="231.0" minWidth="10.0" prefWidth="189.0" />
                                                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="231.0" minWidth="10.0" prefWidth="189.0" />
@@ -283,61 +273,8 @@
                                                    </columnConstraints>
                                                    <rowConstraints>
                                                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                   </rowConstraints>
-                                                </GridPane>
-                                             </children>
-                                          </VBox>
-                                       </children>
-                                       <padding>
-                                          <Insets left="8.0" />
-                                       </padding>
-                                    </VBox>
-                                    <Label alignment="CENTER" text="X" textFill="WHITE" translateX="-8.0">
-                                       <font>
-                                          <Font name="Consolas Bold" size="30.0" />
-                                       </font>
-                                    </Label>
-                                    <VBox fillWidth="false" focusTraversable="true" prefHeight="675.0" prefWidth="585.0">
-                                       <children>
-                                          <Separator prefHeight="17.0" prefWidth="364.0" visible="false" />
-                                          <VBox alignment="CENTER" fillWidth="false" prefHeight="630.0" prefWidth="457.0" spacing="10.0" style="-fx-border-color: #4285F4; -fx-border-width: 2; -fx-border-radius: 15;">
-                                             <children>
-                                                <GridPane fx:id="gridP2TW" alignment="CENTER_RIGHT" gridLinesVisible="true" prefHeight="604.0" prefWidth="453.0">
-                                                   <columnConstraints>
-                                                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="231.0" minWidth="10.0" prefWidth="189.0" />
-                                                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="234.0" minWidth="10.0" prefWidth="188.0" />
-                                                   </columnConstraints>
-                                                   <rowConstraints>
-                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                   </rowConstraints>
-                                                </GridPane>
-                                             </children>
-                                          </VBox>
-                                       </children>
-                                    </VBox>
-                                    <Label alignment="CENTER" text="=" textFill="WHITE">
-                                       <font>
-                                          <Font name="Consolas Bold" size="30.0" />
-                                       </font>
-                                    </Label>
-                                    <VBox fillWidth="false" focusTraversable="true" layoutX="10.0" layoutY="10.0" prefHeight="643.0" prefWidth="556.0" spacing="5.0">
-                                       <children>
-                                          <Separator prefHeight="14.0" prefWidth="392.0" visible="false" />
-                                          <VBox alignment="CENTER" prefHeight="626.0" prefWidth="419.0" style="-fx-border-color: #4285F4; -fx-border-width: 2; -fx-border-radius: 15;">
-                                             <children>
-                                                <GridPane fx:id="gridP3TW" alignment="CENTER_RIGHT" gridLinesVisible="true" prefHeight="597.0" prefWidth="415.0">
-                                                   <columnConstraints>
-                                                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="231.0" minWidth="10.0" prefWidth="189.0" />
-                                                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="234.0" minWidth="10.0" prefWidth="188.0" />
-                                                   </columnConstraints>
-                                                   <rowConstraints>
-                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                      <RowConstraints maxHeight="121.0" minHeight="10.0" prefHeight="121.0" vgrow="SOMETIMES" />
+                                                      <RowConstraints maxHeight="120.0" minHeight="10.0" prefHeight="120.0" vgrow="SOMETIMES" />
                                                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                                    </rowConstraints>
@@ -363,7 +300,7 @@
                                     </Label>
                                     <TextArea fx:id="amountMatrixTW" prefHeight="38.0" prefWidth="126.0" />
                                     <Separator prefHeight="13.0" prefWidth="83.0" visible="false" />
-                                    <Button fx:id="generateTW" mnemonicParsing="false" prefHeight="43.0" prefWidth="118.0" text="Generate" />
+                                    <Button mnemonicParsing="false" onAction="#generateTW" prefHeight="43.0" prefWidth="118.0" text="Generate" />
                                  </children>
                               </HBox>
                            </top>

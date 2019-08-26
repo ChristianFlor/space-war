@@ -4,6 +4,14 @@ import java.util.Random;
 
 public class SpaceWar {
 	
+	public static final int LIMIT = 1000;
+	public static final int LIMIT_THIRD_BATTLE = 15;
+	
+	/**
+	 * Constructor for SpaceWar class, no parameters are required.
+	 * pre: true
+	 * post: an instance of SpaceWar will be created.
+	 */
 	public SpaceWar() {
 		
 	}
@@ -32,7 +40,7 @@ public class SpaceWar {
 		int[][] matrix = new int[rows][columns];
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
-				matrix[i][j] = r.nextInt();
+				matrix[i][j] = r.nextInt(LIMIT-1)+1;
 			}
 		}
 		return matrix;
@@ -47,19 +55,23 @@ public class SpaceWar {
 		Random r = new Random();
 		int[] values = new int[rows*columns];
 		int[][] matrix = new int[rows][columns];
+		int rw = 0;
 		for(int i = 0; i < rows*columns; i++) {
+			if(i%columns == 0 && i > 0) {
+				rw++;
+			}
 			boolean repetition = true;
-			int n = r.nextInt();
+			int n = r.nextInt(LIMIT-1)+1;
 			while(repetition) {
-				repetition= false;
+				repetition = false;
 				for(int j = 0; j < i && !repetition; j++) {
 					 if(n==values[j]) {
 						 repetition = true;
-						 n = r.nextInt();
+						 n = r.nextInt(LIMIT-1)+1;
 					 }
 				}
 			}
-			
+			matrix[rw][i%columns] = n;
 		}
 		return matrix;
 	}
@@ -67,11 +79,11 @@ public class SpaceWar {
 	 * This method decides which method is going to be used for matrix multiplication.
 	 * pre: a != null && b != null, rows in matrix a == columns in matrix b 
 	 * && columns in matrix a == rows in matrix b.
-	 * post: the method returns a matrix c, that corresponds to the matrix multiplication
-	 * defined in linear algebra.
+	 * post: the method returns a matrix c, that corresponds to the matrix multiplication 
+	 * between a and b as it's defined in linear algebra.
 	 * @param a first matrix
 	 * @param b second matrix
-	 * @return c result of the matrix multiplication between a and b.
+	 * @return c the result of the matrix multiplication between a and b.
 	 */
 	public int[][] multiplyTwoMatrices(int[][] a, int[][] b){
 		
@@ -83,14 +95,16 @@ public class SpaceWar {
 		} else if(validateDimensions(a, b)) {
 			return iterativeMultiplication(a, b);
 		} else {
-			throw new IllegalArgumentException("Illegal sizes of matrixes: A: (" + a.length + " x " + a[0].length + "), "
+			throw new IllegalArgumentException("Illegal sizes of matrices: A: (" + a.length + " x " + a[0].length + "), "
 					+ "B: (" + b.length + " x " + b[0].length + ")");
 		}
 		
 	}
 	
 	/**Method: Applied the Strassen's Algorithm for multiplying matrices.
-	 * 
+	 * pre: A and B are two square matrices, their dimensions are a power of 2.
+	 * post: the method returns a matrix c, that corresponds to the matrix multiplication 
+	 * between a and b as it's defined in linear algebra.
 	 * @param a : Matrix a
 	 * @param b : Matrix b
 	 * @return The result of the operation between matrices.
@@ -234,11 +248,12 @@ public class SpaceWar {
 			}
 	}
 
-	/**Method: Multiplication of matrices with the method
-	 * Divide and Conquer
-	 * 
-	 * @param A
-	 * @param B
+	/**Method: Multiplication of matrices with the strategy divide and Conquer
+	 * pre: A and B are two square matrices, their dimensions are a power of 2.
+	 * post: the method returns a matrix c, that corresponds to the matrix multiplication 
+	 * between a and b as it's defined in linear algebra.
+	 * @param A first matrix
+	 * @param B second matrix
 	 * @return Result of the product of the matrices
 	 */
 	public int[][] matrixMultiplicationDC(int[][] A, int[][] B){
@@ -249,10 +264,12 @@ public class SpaceWar {
 
 	}
 	/**Method: Divide and Conquer algorithm for multiplying matrices
-	 * 
-	 * @param A
-	 * @param B
-	 * @return Result of the product of the matrices
+	 * pre: A and B are two square matrices, their dimensions are a power of 2.
+	 * post: the method returns a matrix c, that corresponds to the matrix multiplication 
+	 * between a and b as it's defined in linear algebra.
+	 * @param A first matrix
+	 * @param B second matrix
+	 * @return C the result of the product of the matrices
 	 */
 	public int[][] matrixMultiplication(
 	        int[][] A, int[][] B, int rowA, int colA, 
@@ -296,6 +313,14 @@ public class SpaceWar {
 
 	}
 	
+	/**
+	 * Auxiliary method for the divide and conquer matrix multiplication algorithm
+	 * @param C
+	 * @param A
+	 * @param B
+	 * @param rowC
+	 * @param colC
+	 */
 	private void sumMatrix(int[][] C, int[][]A, int[][]B,int rowC, int colC){
 	    int n=A.length;
 	    for(int i =0; i<n; i++){
@@ -318,9 +343,18 @@ public class SpaceWar {
 				A.length != A[0].length) {
 			return false;
 		}
-		return true;
+		return true && validateDimensions(A, B);
 	}
-	
+	/**
+	 * Iterative method to matrix multiplication for matrices of non-square dimensions.
+	 * pre: rows in matrix a == columns in matrix b 
+	 * && columns in matrix a == rows in matrix b.
+	 * post: the method returns a matrix c, that corresponds to the matrix multiplication
+	 * defined in linear algebra.
+	 * @param a first matrix
+	 * @param b second matrix
+	 * @return c the result of the matrix multiplication between a and b.
+	 */
 	public int[][] iterativeMultiplication(int[][] a, int[][] b) {
 		int[][] c = new int[a.length][b[0].length];
 		for (int i = 0; i < a.length; i++) {
@@ -354,7 +388,7 @@ public class SpaceWar {
 		boolean[][] realUbications = new boolean[rows][columns];
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
-				if(searchInPrimes(warField[i][j], primesTillBiggest)) {
+				if(searchNumberInArray(warField[i][j], primesTillBiggest)) {
 					realUbications[i][j] = true;
 				}
 			}
@@ -392,7 +426,7 @@ public class SpaceWar {
 		}
 		return primes;
     }
-	/**Method: finds the highest numeber in an algorithm
+	/**Method: finds the highest number in a matrix.
 	 * 
 	 * @param matrix
 	 * @return highest number in matrix
@@ -409,12 +443,14 @@ public class SpaceWar {
 		return biggest;
 	}
 	/**
-	 * 
-	 * @param n
-	 * @param numbers
-	 * @return
+	 * This method searches for a number in a given array using binary search.
+	 * pre: numbers != null, numbers is a sorted array of integers.
+	 * post: returns true if the number is in the array, otherwise returns false.
+	 * @param n the number to be searched
+	 * @param numbers the array where the number is going to be searched.
+	 * @return true if the number is in the array, otherwise returns false.
 	 */
-	public boolean searchInPrimes(int n, int[] numbers) {
+	public boolean searchNumberInArray(int n, int[] numbers) {
 		int high = numbers.length-1;
 		int low = 0;
 		while(low <= high) {
