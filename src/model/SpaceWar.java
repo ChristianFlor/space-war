@@ -165,8 +165,8 @@ public class SpaceWar {
 			}
 	}
 	
-	public int[][] divideAndConquerMultiply(int[][] A, int[][] B) {
-		validateDimensionsDivideAndConquer(A, B);
+	public int[][] divideAndConquerMultiplication(int[][] A, int[][] B) {
+		validateDimensionsDC(A, B);
 		return divideAndConquerMultiplyRecursive(A, B);
 	}
 	
@@ -196,10 +196,10 @@ public class SpaceWar {
 			divide(B3, B, n/2, 0);
 			divide(B4, B, n/2, n/2);
 			
-			int[][] C1 = addDC(divideAndConquerMultiply(A1, B1), divideAndConquerMultiply(A2, B3));
-			int[][] C2 = addDC(divideAndConquerMultiply(A1, B2), divideAndConquerMultiply(A2, B4));
-			int[][] C3 = addDC(divideAndConquerMultiply(A3, B1), divideAndConquerMultiply(A4, B3));
-			int[][] C4 = addDC(divideAndConquerMultiply(A3, B2), divideAndConquerMultiply(A4, B4));
+			int[][] C1 = addDC(divideAndConquerMultiplication(A1, B1), divideAndConquerMultiplication(A2, B3));
+			int[][] C2 = addDC(divideAndConquerMultiplication(A1, B2), divideAndConquerMultiplication(A2, B4));
+			int[][] C3 = addDC(divideAndConquerMultiplication(A3, B1), divideAndConquerMultiplication(A4, B3));
+			int[][] C4 = addDC(divideAndConquerMultiplication(A3, B2), divideAndConquerMultiplication(A4, B4));
 			
 			join(C1, result, 0, 0);
 			join(C2, result, 0, n/2);
@@ -230,20 +230,33 @@ public class SpaceWar {
         }
     }
 	
-	public void validateDimensionsDivideAndConquer(int[][] A, int[][] B) {
-		validateDimensions(A, B);
+	public void validateDimensionsDC(int[][] A, int[][] B) {
 		double log2 = Math.log10(A.length)/Math.log10(2);
 		if((int)log2 - log2 != 0 ||
 				A.length != B[0].length ||
 				A[0].length != B.length ||
 				A.length != A[0].length) {
-			throw new IllegalArgumentException("Incompatible dimensions for divide and conquer algorithm: A(" + A.length + "," + A[0].length + ") and B(" + B.length + "," + B[0].length + ")");
+			throw new IllegalArgumentException("Illegal sizes of matrixes: A: (" + A.length + " x " + A[0].length + "), B: (" + B.length + " x " + B[0].length + ")");
 		}
 	}
 	
-	private void validateDimensions(int[][] A, int[][] B) {
+	public int[][] iterativeMultiplication(int[][] a, int[][] b) {
+		int[][] c = new int[a.length][b[0].length];
+		for (int i = 0; i < a.length; i++) {
+			for (int j = 0; j < b[0].length; j++) {
+				int sum = 0;
+				for (int k = 0; k < a[0].length; k++) {
+					sum+= a[i][k] * b[k][j];
+				}
+				c[i][j] = sum;
+			}
+		}
+		return c;
+	}
+	
+	public void validateDimensions(int[][] A, int[][] B) {
 		if(A.length != B[0].length || A[0].length != B.length) {
-			throw new IllegalArgumentException("Incompatible dimensions: A(" + A.length + "," + A[0].length + ") and B(" + B.length + "," + B[0].length + ")");
+			throw new IllegalArgumentException("Illegal sizes of matrixes: A: (" + A.length + " x " + A[0].length + "), B: (" + B.length + " x " + B[0].length + ")");
 		}
 	}
 	
@@ -264,19 +277,23 @@ public class SpaceWar {
 	}
 
 	public int[] findPrimes(int n) {
-        boolean arePrimes[] = new boolean[n]; 
-        for(int i=0;i<n;i++) 
+        boolean arePrimes[] = new boolean[n+1]; 
+        for(int i = 0; i <= n; i++) 
         	arePrimes[i] = true;
-        int notPrimescounter = 0;
-        for(int p = 2; p*p < n; p++) { 
+        for(int p = 2; p*p <= n; p++) {
         	if(arePrimes[p]) {
-            	for(int i = p*2; i < n; i += p) { 
+            	for(int i = p*2; i <= n; i += p) { 
             		arePrimes[i] = false;
-                	notPrimescounter++;
         		}
-            }
+        	}
         }
-        int[] primes = new int[n-notPrimescounter];
+        int counter = 0;
+        for (int i = 2; i < arePrimes.length; i++) {
+			if(arePrimes[i]) {
+				counter++;
+			}
+		}
+        int[] primes = new int[counter];
         for (int i = 2, j = 0; i < arePrimes.length; i++) {
 			if(arePrimes[i]) {
 				primes[j] = i;
@@ -299,7 +316,7 @@ public class SpaceWar {
 	}
 	
 	public boolean searchInPrimes(int n, int[] numbers) {
-		int high = numbers.length;
+		int high = numbers.length-1;
 		int low = 0;
 		while(low <= high) {
 			int mid = (high+low)/2;
