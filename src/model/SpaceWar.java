@@ -63,6 +63,32 @@ public class SpaceWar {
 		}
 		return matrix;
 	}
+	/**
+	 * This method decides which method is going to be used for matrix multiplication.
+	 * pre: a != null && b != null, rows in matrix a == columns in matrix b 
+	 * && columns in matrix a == rows in matrix b.
+	 * post: the method returns a matrix c, that corresponds to the matrix multiplication
+	 * defined in linear algebra.
+	 * @param a first matrix
+	 * @param b second matrix
+	 * @return c result of the matrix multiplication between a and b.
+	 */
+	public int[][] multiplyTwoMatrices(int[][] a, int[][] b){
+		
+		if(validateDimensionsDC(a, b)) {
+			if(new java.util.Random().nextBoolean()) {
+				return strassen(a, b);
+			}
+			return matrixMultiplicationDC(a, b);
+		} else if(validateDimensions(a, b)) {
+			return iterativeMultiplication(a, b);
+		} else {
+			throw new IllegalArgumentException("Illegal sizes of matrixes: A: (" + a.length + " x " + a[0].length + "), "
+					+ "B: (" + b.length + " x " + b[0].length + ")");
+		}
+		
+	}
+	
 	/**Method: Applied the Strassen's Algorithm for multiplying matrices.
 	 * 
 	 * @param a : Matrix a
@@ -215,9 +241,12 @@ public class SpaceWar {
 	 * @param B
 	 * @return Result of the product of the matrices
 	 */
-	public int[][] divideAndConquerMultiplication(int[][] A, int[][] B) {
-		validateDimensionsDC(A, B);
-		return divideAndConquerMultiplyRecursive(A, B);
+	public int[][] matrixMultiplicationDC(int[][] A, int[][] B){
+
+	    return  matrixMultiplication(
+	            A, B, 0, 0, 
+	            0,0, A.length);
+
 	}
 	/**Method: Divide and Conquer algorithm for multiplying matrices
 	 * 
@@ -225,90 +254,71 @@ public class SpaceWar {
 	 * @param B
 	 * @return Result of the product of the matrices
 	 */
-	private int[][] divideAndConquerMultiplyRecursive(int[][] A, int[][] B) {
-		int n = A.length;
-		int[][] result = new int[n][n];
-		if(n == 1) {
-			result[0][0] = A[0][0] * B[0][0];
-		} else {
-			int[][] A1 = new int[n/2][n/2];
-			int[][] A2 = new int[n/2][n/2];
-			int[][] A3 = new int[n/2][n/2];
-			int[][] A4 = new int[n/2][n/2];
-			
-			int[][] B1 = new int[n/2][n/2];
-			int[][] B2 = new int[n/2][n/2];
-			int[][] B3 = new int[n/2][n/2];
-			int[][] B4 = new int[n/2][n/2];
-			
-			divide(A1, A, 0, 0);
-			divide(A2, A, 0, n/2);
-			divide(A3, A, n/2, 0);
-			divide(A4, A, n/2, n/2);
-			
-			divide(B1, B, 0, 0);
-			divide(B2, B, 0, n/2);
-			divide(B3, B, n/2, 0);
-			divide(B4, B, n/2, n/2);
-			
-			int[][] C1 = addDC(divideAndConquerMultiplication(A1, B1), divideAndConquerMultiplication(A2, B3));
-			int[][] C2 = addDC(divideAndConquerMultiplication(A1, B2), divideAndConquerMultiplication(A2, B4));
-			int[][] C3 = addDC(divideAndConquerMultiplication(A3, B1), divideAndConquerMultiplication(A4, B3));
-			int[][] C4 = addDC(divideAndConquerMultiplication(A3, B2), divideAndConquerMultiplication(A4, B4));
-			
-			join(C1, result, 0, 0);
-			join(C2, result, 0, n/2);
-			join(C3, result, n/2, 0);
-			join(C4, result, n/2, n/2);
-		}
-		return result;
+	public int[][] matrixMultiplication(
+	        int[][] A, int[][] B, int rowA, int colA, 
+	        int rowB, int colB, int size){
+
+	    int[][] C= new int[size][size];
+
+	    if(size==1)
+	        C[0][0]= A[rowA][colA]*B[rowB][colB];
+
+	    else{
+
+	        int newSize= size/2;
+	        //C11
+	         sumMatrix(C, 
+
+	            matrixMultiplication(A, B, rowA, colA, rowB, colB, newSize),
+	            matrixMultiplication(A, B, rowA, colA+newSize, rowB+ newSize, colB, newSize),
+	        0, 0);
+
+	         sumMatrix(C, 
+
+	            matrixMultiplication(A, B, rowA, colA, rowB, colB + newSize, newSize),
+	            matrixMultiplication(A, B, rowA, colA+newSize, rowB+ newSize, colB+newSize, newSize),
+	        0, newSize);
+
+	         sumMatrix(C, 
+
+	            matrixMultiplication(A, B, rowA+ newSize, colA, rowB, colB, newSize),
+	            matrixMultiplication(A, B, rowA+ newSize, colA+newSize, rowB+ newSize, colB, newSize),
+	        newSize, 0);
+
+	         sumMatrix(C, 
+
+	            matrixMultiplication(A, B, rowA+ newSize, colA, rowB, colB+newSize, newSize),
+	            matrixMultiplication(A, B, rowA+ newSize, colA+newSize, rowB+ newSize, colB+newSize, newSize),
+	        newSize, newSize);
+	    }
+
+	    return C;
+
 	}
-	/**
-	 * 
-	 * @param A
-	 * @param B
-	 * @return
-	 */
-	public int[][] addDC(int[][] A, int[][] B) {
-		int rows = A.length;
-		int cols = A[0].length;
-		int[][] C = new int[rows][cols];
-		for(int i = 0; i < rows; i++) {
-			for(int j = 0; j < cols; j++) {
-				C[i][j] = A[i][j] + B[i][j];
-			}
-		}
-		return C;
+	
+	private void sumMatrix(int[][] C, int[][]A, int[][]B,int rowC, int colC){
+	    int n=A.length;
+	    for(int i =0; i<n; i++){
+	        for(int j=0; j<n; j++)  
+	            C[i+rowC][j+colC]=A[i][j]+B[i][j];
+	    }
+
 	}
-	/**
-	 * 
-	 * @param submatrix
-	 * @param matrix
-	 * @param row
-	 * @param column
-	 */
-	private void join(int[][] submatrix, int[][] matrix, int row, int column) {
-		int n = submatrix.length;
-        for(int i1 = 0, i2 = row; i1 < n; i1++, i2++) {
-            for(int j1 = 0, j2 = column; j1 < n; j1++, j2++) {
-                matrix[i2][j2] = submatrix[i1][j1];
-            }
-        }
-    }
 	
 	/**Auxiliary method: Validates if the matrices have the correct dimension
 	 * to apply the Divide and Conquer algorithm
 	 * @param A
 	 * @param B
 	 */
-	public void validateDimensionsDC(int[][] A, int[][] B) {
+	public boolean validateDimensionsDC(int[][] A, int[][] B) {
 		double log2 = Math.log10(A.length)/Math.log10(2);
 		if((int)log2 - log2 != 0 ||
 				A.length != B[0].length ||
 				A[0].length != B.length ||
 				A.length != A[0].length) {
-			throw new IllegalArgumentException("Illegal sizes of matrixes: A: (" + A.length + " x " + A[0].length + "), B: (" + B.length + " x " + B[0].length + ")");
+			return false;
 		}
+		return true;
 	}
 	
 	public int[][] iterativeMultiplication(int[][] a, int[][] b) {
@@ -325,10 +335,11 @@ public class SpaceWar {
 		return c;
 	}
 	
-	public void validateDimensions(int[][] A, int[][] B) {
+	public boolean validateDimensions(int[][] A, int[][] B) {
 		if(A.length != B[0].length || A[0].length != B.length) {
-			throw new IllegalArgumentException("Illegal sizes of matrixes: A: (" + A.length + " x " + A[0].length + "), B: (" + B.length + " x " + B[0].length + ")");
+			return false;
 		}
+		return true;
 	}
 	/**Method: Finds the location of the ships in the matrix by finding
 	 * the prime numbers in it.
@@ -350,7 +361,7 @@ public class SpaceWar {
 		}
 		return realUbications;
 	}
-	/**Method: Finds prime numbers
+	/**Method: Finds prime numbers using the sieve of Eratosthenes
 	 * 
 	 * @param n
 	 * @return
