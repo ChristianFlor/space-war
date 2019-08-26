@@ -21,7 +21,8 @@
     -fx-border-color: -fx-secondary;
     -fx-border-radius: 20px;
     -fx-background-radius: 20px;
-    -fx-font-size: 14pt;
+    -fx-font-size: 10pt;
+ 	   
 }
 
 .button:hover, .button:focused{

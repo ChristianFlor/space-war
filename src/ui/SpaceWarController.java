@@ -5,9 +5,11 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import model.SpaceWar;
 
 public class SpaceWarController {
@@ -71,28 +73,29 @@ public class SpaceWarController {
 
         	for (int i = 0; i < a.length; i++) {
 				for (int j = 0; j < a[0].length; j++) {
-					Label l = new Label(a[i][j] + "");
-					l.setStyle("-fx-font-size: 80px;");
+					Button l = new Button(a[i][j] + "");
+					
 					l.setAlignment(Pos.CENTER);
-					l.setStyle("-fx-text-fill: white");
+					
 					
 					gridP1FW.add(l, i, j);
+					gridP1FW.setAlignment(Pos.CENTER);
+					gridP1FW.setGridLinesVisible(true);
+				
+					Button l2 = new Button(b[i][j] + "");
 					
-					Label l2 = new Label(b[i][j] + "");
-					l2.setStyle("-fx-font-size: 80px;");
 					l2.setAlignment(Pos.CENTER);
-					l2.setStyle("-fx-text-fill: white");
 					
 					gridP2FW.add(l2, i, j);
+					gridP2FW.setAlignment(Pos.CENTER);
 				}
 			}
         	
         	for (int i = 0; i < c.length; i++) {
 				for (int j = 0; j < c[0].length; j++) {
-					Label l = new Label(c[i][j] + "");
-					l.setStyle("-fx-font-size: 80px;");
-					l.setAlignment(Pos.CENTER);
-					l.setStyle("-fx-text-fill: white");
+					Button l = new Button(c[i][j] + "");
+					l.autosize();
+					
 					
 					gridP3FW.add(l, i, j);
 				}
