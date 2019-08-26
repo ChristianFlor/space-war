@@ -7,7 +7,13 @@ public class SpaceWar {
 	public SpaceWar() {
 		
 	}
-	
+	/**Method: Creates a matrix with random Numbers
+	 * 
+	 * @param rows
+	 * @param columns
+	 * @param repetition
+	 * @return Matrix with random numbers
+	 */
 	public int[][] randomMatrix(int rows, int columns, boolean repetition){
 		if(repetition) {
 			return randomMatrixWithRepetition(rows, columns);
@@ -15,7 +21,12 @@ public class SpaceWar {
 			return randomMatrixWithoutRepetition(rows, columns);
 		}
 	}
-	
+	/**Auxiliary Method: Creates a matrix with random numbers,
+	 * Allows numbers to be repeated.
+	 * @param rows
+	 * @param columns
+	 * @return Matrix with random numbers
+	 */
 	public int[][] randomMatrixWithRepetition(int rows, int columns) {
 		Random r = new Random();
 		int[][] matrix = new int[rows][columns];
@@ -26,7 +37,12 @@ public class SpaceWar {
 		}
 		return matrix;
 	}
-	
+	/**Auxiliary Method:  Creates a matrix with random numbers,
+	 * Inhibits the creation of a matrix with repeated numbers.
+	 * @param rows
+	 * @param columns
+	 * @return Matrix with random numbers
+	 */
 	public int[][] randomMatrixWithoutRepetition(int rows, int columns){
 		Random r = new Random();
 		int[] values = new int[rows*columns];
@@ -47,7 +63,12 @@ public class SpaceWar {
 		}
 		return matrix;
 	}
-	
+	/**Method: Applied the Strassen's Algorithm for multiplying matrices.
+	 * 
+	 * @param a : Matrix a
+	 * @param b : Matrix b
+	 * @return The result of the operation between matrices.
+	 */
 	public int [][] strassen(int [][] a, int [][] b)
 	{
 		int n = a.length;
@@ -120,7 +141,12 @@ public class SpaceWar {
 		}
 		return result;
 	}
-
+	/**Auxiliary Method: Add operation in matrix
+	 * 
+	 * @param A
+	 * @param B
+	 * @return
+	 */
 	private int [][] add(int [][] A, int [][] B)
 	{
 		int n = A.length;
@@ -133,7 +159,12 @@ public class SpaceWar {
 
 		return result;
 	}
-
+	/**Auxiliary Method: Subtract operation in matrix
+	 * 
+	 * @param A
+	 * @param B
+	 * @return
+	 */
 	private int [][] sub(int [][] A, int [][] B)
 	{
 		int n = A.length;
@@ -146,7 +177,13 @@ public class SpaceWar {
 
 		return result;
 	}
-
+	/**Auxiliary method: co-factor reduction for Divide and Conquer
+	 * 
+	 * @param p1
+	 * @param c1
+	 * @param iB
+	 * @param jB
+	 */
 	private void divide(int[][] p1, int[][] c1, int iB, int jB)
 	{
 		for(int i1 = 0, i2=iB; i1<c1.length; i1++, i2++)
@@ -155,7 +192,13 @@ public class SpaceWar {
 				c1[i1][j1] = p1[i2][j2];
 			}
 	}
-
+	/**auxiliary method: Copy operation
+	 * 
+	 * @param c1
+	 * @param p1
+	 * @param iB
+	 * @param jB
+	 */
 	private void copy(int[][] c1, int[][] p1, int iB, int jB)
 	{
 		for(int i1 = 0, i2=iB; i1<c1.length; i1++, i2++)
@@ -164,12 +207,23 @@ public class SpaceWar {
 				p1[i2][j2] = c1[i1][j1];
 			}
 	}
-	
+	/**Method: Multiplication of matrices with the method
+	 * Divide and Conquer
+	 * 
+	 * @param A
+	 * @param B
+	 * @return Result of the product of the matrices
+	 */
 	public int[][] divideAndConquerMultiply(int[][] A, int[][] B) {
 		validateDimensionsDivideAndConquer(A, B);
 		return divideAndConquerMultiplyRecursive(A, B);
 	}
-	
+	/**Method: Divide and Conquer algorithm for multiplying matrices
+	 * 
+	 * @param A
+	 * @param B
+	 * @return Result of the product of the matrices
+	 */
 	private int[][] divideAndConquerMultiplyRecursive(int[][] A, int[][] B) {
 		int n = A.length;
 		int[][] result = new int[n][n];
@@ -208,7 +262,12 @@ public class SpaceWar {
 		}
 		return result;
 	}
-	
+	/**
+	 * 
+	 * @param A
+	 * @param B
+	 * @return
+	 */
 	public int[][] addDC(int[][] A, int[][] B) {
 		int rows = A.length;
 		int cols = A[0].length;
@@ -220,7 +279,13 @@ public class SpaceWar {
 		}
 		return C;
 	}
-	
+	/**
+	 * 
+	 * @param submatrix
+	 * @param matrix
+	 * @param row
+	 * @param column
+	 */
 	private void join(int[][] submatrix, int[][] matrix, int row, int column) {
 		int n = submatrix.length;
         for(int i1 = 0, i2 = row; i1 < n; i1++, i2++) {
@@ -229,7 +294,11 @@ public class SpaceWar {
             }
         }
     }
-	
+	/**Auxiliary method: Validates if the matrices have the correct dimension
+	 * to apply the Divide and Conquer algorithm
+	 * @param A
+	 * @param B
+	 */
 	public void validateDimensionsDivideAndConquer(int[][] A, int[][] B) {
 		validateDimensions(A, B);
 		double log2 = Math.log10(A.length)/Math.log10(2);
@@ -246,7 +315,11 @@ public class SpaceWar {
 			throw new IllegalArgumentException("Incompatible dimensions: A(" + A.length + "," + A[0].length + ") and B(" + B.length + "," + B[0].length + ")");
 		}
 	}
-	
+	/**Method: Finds the location of the ships in the matrix by finding
+	 * the prime numbers in it.
+	 * @param warField
+	 * @return a matrix with booleans on whether a ship is in a cell of the grid.
+	 */
 	public boolean[][] findShips(int[][] warField) {
 		int rows = warField.length;
 		int columns = warField[0].length;
@@ -262,7 +335,11 @@ public class SpaceWar {
 		}
 		return realUbications;
 	}
-
+	/**Method: Finds prime numbers
+	 * 
+	 * @param n
+	 * @return
+	 */
 	public int[] findPrimes(int n) {
         boolean arePrimes[] = new boolean[n]; 
         for(int i=0;i<n;i++) 
@@ -285,7 +362,11 @@ public class SpaceWar {
 		}
 		return primes;
     }
-	
+	/**Method: finds the highest numeber in an algorithm
+	 * 
+	 * @param matrix
+	 * @return highest number in matrix
+	 */
 	public int searchBiggestNumberInMatrix(int[][] matrix) {
 		int biggest = matrix[0][0];
 		for (int i = 0; i < matrix.length; i++) {
@@ -297,7 +378,12 @@ public class SpaceWar {
 		}
 		return biggest;
 	}
-	
+	/**
+	 * 
+	 * @param n
+	 * @param numbers
+	 * @return
+	 */
 	public boolean searchInPrimes(int n, int[] numbers) {
 		int high = numbers.length;
 		int low = 0;
