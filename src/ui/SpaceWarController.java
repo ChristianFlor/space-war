@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
@@ -110,17 +111,11 @@ public class SpaceWarController {
         	
         	for (int i = 0; i < a.length; i++) {
 				for (int j = 0; j < a[0].length; j++) {
-					if(posA[i][j]) {
-						gridP1FW.add(new ImageView(SHIP), i, j);
-					} else {
-						gridP1FW.add(new ImageView(BLANK), i, j);
-					}
+					Button l = new Button(a[i][j] + "");
+					gridP1FW.add(l, i, j);
 					
-					if(posB[i][j]) {
-						gridP2FW.add(new ImageView(SHIP), i, j);
-					} else {
-						gridP2FW.add(new ImageView(BLANK), i, j);
-					}
+					Button l2 = new Button(a[i][j] + "");
+					gridP2FW.add(l2, i, j);
 					
 				}
 			}
@@ -175,16 +170,11 @@ public class SpaceWarController {
 
         	for (int i = 0; i < a.length; i++) {
 				for (int j = 0; j < a[0].length; j++) {
-					if(posA[i][j]) {
-						gridP1SW.add(new ImageView(SHIP), i, j);
-					} else {
-						gridP1SW.add(new ImageView(BLANK), i, j);
-					}
-					if(posB[i][j]) {
-						gridP2SW.add(new ImageView(SHIP), i, j);
-					} else {
-						gridP2SW.add(new ImageView(BLANK), i, j);
-					}
+					Button l = new Button(a[i][j] + "");
+					gridP1SW.add(l, i, j);
+					
+					Button l2 = new Button(a[i][j] + "");
+					gridP2SW.add(l2, i, j);
 					
 				}
 			}
@@ -238,17 +228,12 @@ public class SpaceWarController {
 
         	for (int i = 0; i < a.length; i++) {
 				for (int j = 0; j < a[0].length; j++) {
-					if(posA[i][j]) {
-						gridP1SW.add(new ImageView(SHIP), i, j);
-					} else {
-						gridP1SW.add(new ImageView(BLANK), i, j);
-					}
+					Button l = new Button(a[i][j] + "");
+					gridP1SW.add(l, i, j);
 					
-					if(posB[i][j]) {
-						gridP2SW.add(new ImageView(SHIP), i, j);
-					} else {
-						gridP2SW.add(new ImageView(BLANK), i, j);
-					}
+					Button l2 = new Button(a[i][j] + "");
+					gridP2SW.add(l2, i, j);
+					
 				}
 			}
         	
@@ -275,8 +260,8 @@ public class SpaceWarController {
     	gridP1TW = new GridPane();
     	gridP1TW.setGridLinesVisible(true);
     	
-    	gridP1TW.setHgap(4);
-    	gridP1TW.setVgap(4);
+    	gridP1TW.setHgap(3);
+    	gridP1TW.setVgap(3);
     	
     	scrollP1TW.setContent(gridP1TW);
     	try {
@@ -294,6 +279,7 @@ public class SpaceWarController {
     		boolean[][] resultPos = spaceWar.findShips(result);
     		for (int i = 0; i < result.length; i++) {
 				for (int j = 0; j < result[0].length; j++) {
+					
 					if(resultPos[i][j]) {
 						gridP1TW.add(new ImageView(SHIP), i,j);
 					} else {
