@@ -86,7 +86,7 @@ class TestCase {
 		coef[0][1]=1;
 		coef[1][0]=1;
 		coef[1][1]=1;
-		int[][] res =test.divideAndConquerMultiplication(mat1, coef);
+		int[][] res =test.matrixMultiplicationDC(mat1, coef);
 		assertTrue(res[0][0]==7);
 		assertTrue(res[0][1]==11);
 		assertTrue(res[1][0]==15);
@@ -108,7 +108,7 @@ class TestCase {
 		coef[1][0]=1;
 		coef[1][1]=1;
 		Assertions.assertThrows(IllegalArgumentException.class, ()->{
-			test.divideAndConquerMultiplication(mat1, coef);
+			test.matrixMultiplicationDC(mat1, coef);
 		});
 	}
 	@Test
