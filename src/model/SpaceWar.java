@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class SpaceWar {
 	
-	public static final int LIMIT = 1000;
+	public static final int LIMIT = 100;
 	public static final int LIMIT_THIRD_BATTLE = 15;
 	
 	/**
@@ -88,7 +88,7 @@ public class SpaceWar {
 	public int[][] multiplyTwoMatrices(int[][] a, int[][] b){
 		
 		if(validateDimensionsDC(a, b)) {
-			if(new java.util.Random().nextBoolean()) {
+			if(new Random().nextBoolean()) {
 				return strassen(a, b);
 			}
 			return matrixMultiplicationDC(a, b);
@@ -401,7 +401,7 @@ public class SpaceWar {
 	 * @return
 	 */
 	public int[] findPrimes(int n) {
-        boolean arePrimes[] = new boolean[n+1]; 
+        boolean[] arePrimes = new boolean[n+1];
         for(int i = 0; i <= n; i++) 
         	arePrimes[i] = true;
         for(int p = 2; p*p <= n; p++) {
